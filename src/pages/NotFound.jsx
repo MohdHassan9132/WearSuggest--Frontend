@@ -12,6 +12,12 @@ const NotFound = () => {
       textAlign: 'center',
       padding: '2rem'
     }}>
+      <img 
+        src="/WearSuggestLogo.svg" 
+        alt="WearSuggest Logo" 
+        style={{ width: '150px', marginBottom: '2rem' }}
+        className="logo-loader"
+      />
       <h1 style={{ fontSize: '4rem', color: 'var(--color-accent)', marginBottom: '1rem' }}>404</h1>
       <h2 style={{ marginBottom: '1rem' }}>Page Not Found</h2>
       <p style={{ color: 'var(--color-text-secondary)', marginBottom: '2rem' }}>

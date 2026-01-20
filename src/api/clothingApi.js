@@ -29,3 +29,15 @@ export const deleteClothingItem = async (id) => {
     const response = await axiosInstance.delete(`/clothing/${id}`);
     return response.data;
 };
+
+// Get deleted clothing items
+export const getDeletedClothingItems = async () => {
+    const response = await axiosInstance.get("/clothing/deleted");
+    return response.data;
+};
+
+// Restore clothing item
+export const restoreClothingItem = async (id) => {
+    const response = await axiosInstance.patch(`/clothing/${id}/restore`);
+    return response.data;
+};

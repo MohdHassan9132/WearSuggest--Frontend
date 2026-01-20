@@ -1,10 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink,Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo">WearSuggest</div>
+      <div   className="sidebar-logo">WearSuggest</div>
       
       <nav className="nav-menu">
         <NavLink 
@@ -33,6 +33,13 @@ const Sidebar = () => {
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >
           Add Item
+        </NavLink>
+
+        <NavLink 
+          to="/deleted-items" 
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          Unavailable Items
         </NavLink>
 
         <NavLink 

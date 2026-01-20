@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Outfits from './pages/Outfits';
 import SuggestOutfit from './pages/SuggestOutfit';
 import AddClothing from './pages/AddClothing';
+import DeletedItems from './pages/DeletedItems';
 import NotFound from './pages/NotFound';
 import AppLayout from './components/AppLayout';
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/outfits" element={<Outfits />} />
           <Route path="/suggestions" element={<SuggestOutfit />} />
           <Route path="/add-item" element={<AddClothing />} />
+          <Route path="/deleted-items" element={<DeletedItems />} />
           {/* Add more protected routes here later e.g. /wardrobe */}
         </Route>
       </Route>

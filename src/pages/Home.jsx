@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getClothingItems } from '../api';
+import { getClothingItems, deleteClothingItem } from '../api';
+import Loader from '../components/Loader';
 import './home.css';
 
 const TABS = [
@@ -43,6 +44,20 @@ const Home = () => {
     }
   };
 
+  const handleDelete = async (id, e) => {
+    e.stopPropagation();
+    if (!window.confirm("Move this item to the bin?")) return;
+
+    try {
+      await deleteClothingItem(id);
+      // Remove from local state
+      setItems(prev => prev.filter(item => item._id !== id));
+    } catch (err) {
+      console.error("Error deleting item:", err);
+      alert("Failed to delete item.");
+    }
+  };
+
   return (
     <div className="home-container">
       <div style={{ marginBottom: '2rem' }}>
@@ -65,14 +80,14 @@ const Home = () => {
       </div>
 
       {loading ? (
-        <div className="loading-state">Loading your items...</div>
+        <Loader text="Loading your wardrobe..." />
       ) : error ? (
         <div className="error-message" style={{ textAlign: 'center' }}>{error}</div>
       ) : (
         <div className="clothing-grid">
           {items.length > 0 ? (
             items.map((item) => (
-              <div key={item._id} className="clothing-card">
+              <div key={item._id} className="clothing-card" style={{ position: 'relative' }}>
                 <div className="card-image-container">
                   <img 
                     src={item.imageURL} 
@@ -87,6 +102,22 @@ const Home = () => {
                     <span className="badge">{item.occasion[0]}</span>
                     <span className="badge">{item.season[0]}</span>
                   </div>
+                  <button 
+                    onClick={(e) => handleDelete(item._id, e)}
+                    style={{
+                      marginTop: '0.8rem',
+                      width: '100%',
+                      padding: '0.5rem',
+                      backgroundColor: '#ff4d4d',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem'
+                    }}
+                  >
+                   Mark As Unavailable 🗑️
+                  </button>
                 </div>
               </div>
             ))
