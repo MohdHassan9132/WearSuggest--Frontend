@@ -1,0 +1,31 @@
+import axiosInstance from "./axiosInstance";
+
+// Add a new clothing item
+// Note: This endpoint expects FormData because it handles file uploads
+export const addClothingItem = async (formData) => {
+    const response = await axiosInstance.post("/clothing", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+    return response.data;
+};
+
+// Get all clothing items
+// Get all clothing items (supports filtering params like { type: 'top' })
+export const getClothingItems = async (params = {}) => {
+    const response = await axiosInstance.get("/clothing", { params });
+    return response.data;
+};
+
+// Get specific clothing item by ID
+export const getClothingItemById = async (id) => {
+    const response = await axiosInstance.get(`/clothing/${id}`);
+    return response.data;
+};
+
+// Delete clothing item by ID
+export const deleteClothingItem = async (id) => {
+    const response = await axiosInstance.delete(`/clothing/${id}`);
+    return response.data;
+};

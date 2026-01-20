@@ -1,0 +1,126 @@
+.outfits-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.outfits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.outfit-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s;
+}
+
+.outfit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.06);
+}
+
+.outfit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+}
+
+.outfit-date {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.outfit-composition {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.composition-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.composition-full {
+    width: 100%;
+}
+
+/* Mini Item Card within Outfit */
+.outfit-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.item-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+}
+
+.item-visual {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+.item-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-info {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-transform: capitalize;
+}
+
+.accessories-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.accessory-item {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.accessory-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.missing-piece {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    border: 1px dashed var(--color-border);
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-size: 0.85rem;
+}
