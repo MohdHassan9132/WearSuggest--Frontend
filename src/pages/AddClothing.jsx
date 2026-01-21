@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addClothingItem } from '../api';
+import { addClothingItem, analyzeImage } from '../api/clothingApi';
 import './add-clothing.css';
 
 const COLOR_GROUP_MAP = {
@@ -17,13 +17,14 @@ const COLOR_GROUP_MAP = {
 const AddClothing = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false); // State for AI analysis
   const [error, setError] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
   const [formData, setFormData] = useState({
     type: 'top',
     category: '',
-    color: '', // Will store the selected color key
+    color: '', 
     itemImage: null,
     seasons: [],
     occasions: []
@@ -33,8 +34,6 @@ const AddClothing = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-
-  // ... (keeping other handlers same)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -55,13 +54,49 @@ const AddClothing = () => {
     });
   };
 
+  const handleAutoTag = async () => {
+    if (!formData.itemImage) {
+      setError("Please upload an image first to use Auto-Tag.");
+      return;
+    }
+
+    setAnalyzing(true);
+    setError(null);
+
+    try {
+      const data = new FormData();
+      data.append("itemImage", formData.itemImage);
+
+      const result = await analyzeImage(data);
+      if (result.success && result.data) {
+        const aiData = result.data;
+        
+        // Auto-fill form with AI data
+        setFormData(prev => ({
+          ...prev,
+          type: aiData.type || prev.type,
+          category: aiData.category || prev.category,
+          color: aiData.color || prev.color,
+          // Handle array fields (AI might return arrays or single strings)
+          seasons: Array.isArray(aiData.season) ? aiData.season : (aiData.season ? [aiData.season] : prev.seasons),
+          occasions: Array.isArray(aiData.occasion) ? aiData.occasion : (aiData.occasion ? [aiData.occasion] : prev.occasions),
+        }));
+      }
+    } catch (err) {
+      console.error("Auto-tag error:", err);
+      setError("Failed to analyze image. Please fill details manually.");
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.itemImage) {
       setError("Please upload an image of the item.");
       return;
     }
-    if (!formData.color) { // Validate color selection
+    if (!formData.color) { 
        setError("Please select a color.");
        return;
     }
@@ -82,8 +117,6 @@ const AddClothing = () => {
       data.append('type', formData.type);
       data.append('category', formData.category);
       data.append('color', formData.color);
-      // We can also send the colorGroup if backend needs it, otherwise backend logic handles it
-      // data.append('colorGroup', COLOR_GROUP_MAP[formData.color]); 
       
       data.append('itemImage', formData.itemImage);
       
@@ -104,7 +137,6 @@ const AddClothing = () => {
 
   return (
     <div className="add-clothing-container">
-      {/* ... header ... */}
       <div style={{ marginBottom: '2rem' }}>
         <h1 style={{ marginBottom: '0.5rem' }}>Add New Item</h1>
         <p style={{ color: 'var(--color-text-secondary)' }}>Upload a photo and details of your clothing piece.</p>
@@ -114,7 +146,6 @@ const AddClothing = () => {
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
-          {/* ... image upload ... */}
           <div className="form-group">
             <label>Item Photo</label>
             <div className="image-upload-area" onClick={() => document.getElementById('file-input').click()}>
@@ -134,6 +165,37 @@ const AddClothing = () => {
                 style={{ display: 'none' }}
               />
             </div>
+            
+            {/* Auto-Tag Button Area */}
+            {previewUrl && (
+              <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
+                <button 
+                  type="button" 
+                  className="auto-tag-btn"
+                  onClick={handleAutoTag}
+                  disabled={analyzing}
+                  style={{ 
+                    padding: '0.5rem 1rem', 
+                    background: analyzing ? '#ccc' : 'var(--color-accent)', 
+                    color: '#fff', 
+                    border: 'none', 
+                    borderRadius: '4px', 
+                    cursor: analyzing ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                >
+                  {analyzing ? (
+                    <>
+                      <span className="spinner-small"></span> Analyzing...
+                    </>
+                  ) : (
+                    <>✨ Auto-Fill with AI</>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="form-grid">

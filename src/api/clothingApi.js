@@ -41,3 +41,11 @@ export const restoreClothingItem = async (id) => {
     const response = await axiosInstance.patch(`/clothing/${id}/restore`);
     return response.data;
 };
+
+// Analyze image for auto-tagging
+export const analyzeImage = async (formData) => {
+    const response = await axiosInstance.post("/clothing/analyze", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+};

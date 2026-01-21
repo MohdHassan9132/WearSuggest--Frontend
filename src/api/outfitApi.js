@@ -6,6 +6,12 @@ export const suggestOutfit = async (preferences) => {
     return response.data;
 };
 
+// Suggest an outfit based on tone
+export const suggestToneBasedOutfit = async (preferences) => {
+    const response = await axiosInstance.post("/outfit/suggest-tone", preferences);
+    return response.data;
+};
+
 // Get recent outfits
 export const getRecentOutfits = async () => {
     const response = await axiosInstance.get("/outfit/recent");

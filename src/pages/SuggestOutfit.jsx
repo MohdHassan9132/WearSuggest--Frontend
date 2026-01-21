@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { suggestOutfit } from '../api';
+import { suggestOutfit, suggestToneBasedOutfit } from '../api';
 import './suggestOutfit.css';
 import './outfits.css'; // Reusing outfit card styles
 
@@ -29,10 +29,17 @@ const SuggestOutfit = () => {
       // Sending as standard keys usually used in item creation: season, occasion.
       const payload = {
         occasion: formData.occasion,
-        season: formData.weather // Mapping UI 'weather' to backend 'season' context
+        season: formData.weather, // Mapping UI 'weather' to backend 'season' context
+        tone: formData.tone
       };
 
-      const response = await suggestOutfit(payload);
+      let response;
+      if (formData.tone) {
+        response = await suggestToneBasedOutfit(payload);
+      } else {
+        response = await suggestOutfit(payload);
+      }
+
       if (response.success) {
         setResult(response.data);
       }
@@ -111,6 +118,21 @@ const SuggestOutfit = () => {
               <option value="summer">Summer</option>
               <option value="winter">Winter</option>
               <option value="rainy">Rainy</option>
+            </select>
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">Tone (Optional)</label>
+            <select 
+              name="tone" 
+              value={formData.tone || ''}
+              onChange={handleChange}
+              className="suggestion-select"
+            >
+              <option value="">No Preference</option>
+              <option value="neutral">Neutral</option>
+              <option value="warm">Warm</option>
+              <option value="cool">Cool</option>
             </select>
           </div>
 
