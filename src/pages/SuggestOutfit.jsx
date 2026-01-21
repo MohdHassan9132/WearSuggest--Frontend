@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { suggestOutfit, suggestToneBasedOutfit } from '../api';
 import './suggestOutfit.css';
-import './outfits.css'; // Reusing outfit card styles
+import './outfits.css'; 
 
 const SuggestOutfit = () => {
   const [formData, setFormData] = useState({
@@ -23,13 +23,9 @@ const SuggestOutfit = () => {
     setResult(null);
 
     try {
-      // API likely expects 'season' to match the item attributes, 
-      // but we use 'weather' in UI as requested.
-      // We pass both or map it. Assuming backend looks for 'season' or 'weather'.
-      // Sending as standard keys usually used in item creation: season, occasion.
       const payload = {
         occasion: formData.occasion,
-        season: formData.weather, // Mapping UI 'weather' to backend 'season' context
+        season: formData.weather,
         tone: formData.tone
       };
 
@@ -45,7 +41,6 @@ const SuggestOutfit = () => {
       }
     } catch (err) {
       console.error("Suggestion error:", err);
-      // specific handling if 404 means no outfit found
       if (err.response && (err.response.status === 404 || err.response.status === 400)) {
         setError("No matching outfit found for these conditions. Try adding more items to your wardrobe!");
       } else {
@@ -56,7 +51,6 @@ const SuggestOutfit = () => {
     }
   };
 
-  // Helper component reused from Outfits.jsx logic (could be extracted to shared component)
   const OutfitPiece = ({ item, label }) => {
     if (!item) return (
       <div className="outfit-item">
@@ -154,19 +148,17 @@ const SuggestOutfit = () => {
           
           <div className="outfit-card" style={{ margin: 0, transform: 'none' }}>
             <div className="outfit-composition">
-              {/* Top & Outerwear */}
+
               <div className="composition-row">
                 <OutfitPiece item={result.top} label="Top" />
                 <OutfitPiece item={result.outerwear} label="Outerwear" />
               </div>
 
-              {/* Bottom & Footwear */}
               <div className="composition-row">
                 <OutfitPiece item={result.bottom} label="Bottom" />
                 <OutfitPiece item={result.footwear} label="Footwear" />
               </div>
 
-              {/* Accessories */}
               <div className="outfit-item composition-full">
                 <span className="item-label">Accessories</span>
                 {result.accessories && result.accessories.length > 0 ? (

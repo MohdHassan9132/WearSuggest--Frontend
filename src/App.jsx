@@ -1,5 +1,4 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -14,11 +13,10 @@ import AppLayout from './components/AppLayout';
 function App() {
   return (
     <Routes>
-      {/* Public Routes */}
+
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
@@ -26,11 +24,9 @@ function App() {
           <Route path="/suggestions" element={<SuggestOutfit />} />
           <Route path="/add-item" element={<AddClothing />} />
           <Route path="/deleted-items" element={<DeletedItems />} />
-          {/* Add more protected routes here later e.g. /wardrobe */}
         </Route>
       </Route>
 
-      {/* Catch all */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

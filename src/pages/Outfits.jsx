@@ -16,7 +16,6 @@ const Outfits = () => {
     try {
       const response = await getRecentOutfits();
       if (response.success) {
-        // Take only the first 5 items if more exists
         setOutfits(response.data.slice(0, 5));
       }
     } catch (err) {
@@ -36,7 +35,6 @@ const Outfits = () => {
     });
   };
 
-  // Helper component to render an individual item
   const OutfitPiece = ({ item, label }) => {
     if (!item) return (
       <div className="outfit-item">
@@ -87,19 +85,18 @@ const Outfits = () => {
                 </div>
 
                 <div className="outfit-composition">
-                  {/* Top & Outerwear Row */}
+
                   <div className="composition-row">
                     <OutfitPiece item={outfit.top} label="Top" />
                     <OutfitPiece item={outfit.outerwear} label="Outerwear" />
                   </div>
 
-                  {/* Bottom & Footwear Row */}
+
                   <div className="composition-row">
                     <OutfitPiece item={outfit.bottom} label="Bottom" />
                     <OutfitPiece item={outfit.footwear} label="Footwear" />
                   </div>
 
-                  {/* Accessories */}
                   <div className="outfit-item composition-full">
                     <span className="item-label">Accessories</span>
                     {outfit.accessories && outfit.accessories.length > 0 ? (

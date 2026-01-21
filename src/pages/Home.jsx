@@ -28,10 +28,8 @@ const Home = () => {
     setLoading(true);
     setError(null);
     try {
-      // The API expects parameters to filter by type
       const response = await getClothingItems({ type });
       if (response.success) {
-        console.log(response.data)
         setItems(response.data);
       } else {
         setItems([]);
@@ -50,7 +48,6 @@ const Home = () => {
 
     try {
       await deleteClothingItem(id);
-      // Remove from local state
       setItems(prev => prev.filter(item => item._id !== id));
     } catch (err) {
       console.error("Error deleting item:", err);

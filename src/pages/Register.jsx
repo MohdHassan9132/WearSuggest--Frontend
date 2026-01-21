@@ -23,8 +23,6 @@ const Register = () => {
     setError('');
     try {
       await register(formData);
-      // After registration, redirect to login or home (if auto-login implemented)
-      // Assuming redirect to login for now to be safe
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');

@@ -17,7 +17,7 @@ const COLOR_GROUP_MAP = {
 const AddClothing = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [analyzing, setAnalyzing] = useState(false); // State for AI analysis
+  const [analyzing, setAnalyzing] = useState(false); 
   const [error, setError] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -71,13 +71,11 @@ const AddClothing = () => {
       if (result.success && result.data) {
         const aiData = result.data;
         
-        // Auto-fill form with AI data
         setFormData(prev => ({
           ...prev,
           type: aiData.type || prev.type,
           category: aiData.category || prev.category,
           color: aiData.color || prev.color,
-          // Handle array fields (AI might return arrays or single strings)
           seasons: Array.isArray(aiData.season) ? aiData.season : (aiData.season ? [aiData.season] : prev.seasons),
           occasions: Array.isArray(aiData.occasion) ? aiData.occasion : (aiData.occasion ? [aiData.occasion] : prev.occasions),
         }));
@@ -165,8 +163,7 @@ const AddClothing = () => {
                 style={{ display: 'none' }}
               />
             </div>
-            
-            {/* Auto-Tag Button Area */}
+
             {previewUrl && (
               <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
                 <button 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDeletedClothingItems, restoreClothingItem } from '../api';
 import Loader from '../components/Loader';
-import './home.css'; // Reusing Home styles for grid and cards
+import './home.css';
 
 const DeletedItems = () => {
   const [items, setItems] = useState([]);
@@ -35,7 +35,6 @@ const DeletedItems = () => {
 
     try {
       await restoreClothingItem(id);
-      // Remove from deleted list
       setItems(prev => prev.filter(item => item._id !== id));
     } catch (err) {
       console.error("Error restoring item:", err);
@@ -81,7 +80,7 @@ const DeletedItems = () => {
                       marginTop: '0.8rem',
                       width: '100%',
                       padding: '0.5rem',
-                      backgroundColor: 'var(--color-accent)', // Use theme accent
+                      backgroundColor: 'var(--color-accent)', 
                       color: 'white',
                       border: 'none',
                       borderRadius: '8px',

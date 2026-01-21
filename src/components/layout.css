@@ -5,7 +5,6 @@
     background-color: var(--color-bg);
 }
 
-/* Sidebar Styles */
 .sidebar {
     width: 250px;
     background-color: #fff;
@@ -53,7 +52,6 @@
     color: #fff;
 }
 
-/* Header Styles */
 .main-content {
     flex: 1;
     display: flex;
@@ -103,7 +101,6 @@
     background-color: #fff;
 }
 
-/* Page Content */
 .page-content {
     flex: 1;
     overflow-y: auto;
